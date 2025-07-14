@@ -27,7 +27,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero">
+    <div className="dark min-h-screen bg-gradient-hero">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -148,9 +148,10 @@ const Index = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-secondary">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 space-y-4">
+      <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-secondary relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-accent/5"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-20 space-y-6 animate-fade-in">
             <h2 className="text-3xl sm:text-5xl font-bold font-display">
               How It Works
             </h2>
@@ -159,49 +160,78 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="space-y-8">
-            {[
-              {
-                week: "Week 1",
-                title: "Research + Personas",
-                description: "Learn user research methodologies and create detailed user personas based on real data"
-              },
-              {
-                week: "Week 2", 
-                title: "Wireframes",
-                description: "Transform insights into low-fidelity wireframes and user flow diagrams"
-              },
-              {
-                week: "Week 3",
-                title: "UI Design",
-                description: "Create stunning high-fidelity designs with modern design principles"
-              },
-              {
-                week: "Week 4",
-                title: "Prototype + Case Study",
-                description: "Build interactive prototypes and document your design process professionally"
-              }
-            ].map((step, index) => (
-              <div key={index} className="flex flex-col lg:flex-row items-center gap-8">
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-4">
-                    <Badge variant="outline" className="text-lg px-4 py-2">
-                      {step.week}
-                    </Badge>
-                    <h3 className="text-2xl font-bold">{step.title}</h3>
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-accent via-primary to-accent-alt rounded-full hidden lg:block animate-timeline-grow"></div>
+            
+            <div className="space-y-16 lg:space-y-24">
+              {[
+                {
+                  week: "Week 1",
+                  title: "Research + Personas",
+                  description: "Learn user research methodologies and create detailed user personas based on real data",
+                  icon: "🔍",
+                  color: "from-accent/20 to-accent/5"
+                },
+                {
+                  week: "Week 2", 
+                  title: "Wireframes",
+                  description: "Transform insights into low-fidelity wireframes and user flow diagrams",
+                  icon: "✏️",
+                  color: "from-primary/20 to-primary/5"
+                },
+                {
+                  week: "Week 3",
+                  title: "UI Design",
+                  description: "Create stunning high-fidelity designs with modern design principles",
+                  icon: "🎨",
+                  color: "from-accent-alt/20 to-accent-alt/5"
+                },
+                {
+                  week: "Week 4",
+                  title: "Prototype + Case Study",
+                  description: "Build interactive prototypes and document your design process professionally",
+                  icon: "🚀",
+                  color: "from-accent/20 to-primary/5"
+                }
+              ].map((step, index) => (
+                <div 
+                  key={index} 
+                  className={`flex flex-col lg:flex-row items-center gap-8 lg:gap-16 animate-slide-in-stagger opacity-0`}
+                  style={{ animationDelay: `${index * 200}ms`, animationFillMode: 'forwards' }}
+                >
+                  {/* Content - Left side for even indices, right side for odd */}
+                  <div className={`flex-1 ${index % 2 === 0 ? 'lg:text-right lg:pr-16' : 'lg:pl-16'} ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                    <Card className={`p-8 bg-gradient-to-br ${step.color} border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group`}>
+                      <div className="space-y-6">
+                        <div className={`flex items-center gap-4 ${index % 2 === 0 ? 'lg:justify-end' : ''}`}>
+                          <div className="text-4xl animate-bounce-subtle">{step.icon}</div>
+                          <div>
+                            <Badge variant="secondary" className="text-sm mb-2 bg-white/20 text-primary">
+                              {step.week}
+                            </Badge>
+                            <h3 className="text-2xl lg:text-3xl font-bold font-display">{step.title}</h3>
+                          </div>
+                        </div>
+                        <p className="text-lg text-muted-foreground leading-relaxed">
+                          {step.description}
+                        </p>
+                      </div>
+                    </Card>
                   </div>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    {step.description}
-                  </p>
+
+                  {/* Timeline Node */}
+                  <div className="hidden lg:flex items-center justify-center w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-full shadow-lg relative z-20 animate-pulse-gentle">
+                    <div className="w-8 h-8 bg-background rounded-full flex items-center justify-center">
+                      <div className="w-3 h-3 bg-gradient-to-br from-accent to-primary rounded-full"></div>
+                    </div>
+                  </div>
+
+                  {/* Empty space for layout balance */}
+                  <div className={`flex-1 ${index % 2 === 0 ? 'lg:order-2' : ''} hidden lg:block`}></div>
                 </div>
-                
-                {index < 3 && (
-                  <div className="hidden lg:block">
-                    <ArrowRight className="w-8 h-8 text-accent" />
-                  </div>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
